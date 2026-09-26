@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://achadinhos-da-marcia.vercel.app/sitemap.xml

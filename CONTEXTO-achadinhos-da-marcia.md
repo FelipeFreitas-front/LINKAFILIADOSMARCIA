@@ -1,0 +1,136 @@
+# Contexto: site "achadinhos da Márcia"
+
+Leia este arquivo antes de mexer no site. Ele vem junto com o arquivo `index.html`.
+
+## O que é
+
+É um site vitrine para celular (mobile first), no estilo "link na bio", com os produtos da Shopee que a Márcia indica usando links de afiliada. Ela divulga os produtos no Instagram, TikTok e WhatsApp.
+
+O site é **só leitura**: não tem botão de adicionar nem de editar. Quem atualiza é a IA, sempre que a Márcia manda um produto novo.
+
+## Como a Márcia manda cada produto
+
+Ela manda:
+
+1. **O link de afiliada**, no formato `https://s.shopee.com.br/XXXX`.
+2. **Um print da página do produto**, de onde saem o nome, o preço e o preço antigo riscado.
+3. **A foto do produto**, uma imagem separada.
+4. Às vezes, o nome do produto escrito na mensagem.
+
+A IA normalmente **não consegue abrir links da Shopee**, porque o acesso é bloqueado. Por isso as informações vêm sempre dos prints. Nunca invente preço, nome ou opinião.
+
+## Estrutura do arquivo HTML
+
+É um único arquivo, sem dependências, com o CSS e o JavaScript embutidos. As únicas fontes externas são as do Google Fonts.
+
+- `<style id="app-css">`: todo o visual.
+- `<template id="t-corpo">`: a estrutura da página (topo, busca, filtros, lista e rodapé).
+- `<script type="application/json" id="dados">`: **os dados do site. Só isso muda quando entra um produto novo.**
+- `<script id="app-js">`: monta a página a partir dos dados. Também cuida da busca por nome ou número, dos filtros por categoria e do atalho `#12`, que rola a página até o produto nº 12 e o destaca.
+
+### Formato dos dados
+
+```json
+{
+  "perfil": {
+    "foto": "data:image/jpeg;base64,...",
+    "bio": "Testo em casa antes de indicar. Aqui ficam os links de tudo que passou no teste.",
+    "insta": "",
+    "tiktok": "",
+    "whats": ""
+  },
+  "produtos": [
+    {
+      "n": 1,
+      "nome": "Kit 3 cabides organizadores de calça",
+      "preco": "64,90",
+      "antigo": "87,90",
+      "link": "https://s.shopee.com.br/6AlKYpVTQj",
+      "foto": "data:image/jpeg;base64,...",
+      "frase": "",
+      "cat": "Organização",
+      "criado": "2026-09-26"
+    }
+  ],
+  "proximo": 3
+}
+```
+
+Regras para os campos:
+
+- **`n`** é o número fixo do produto. Os vídeos citam esse número ("o link é o achadinho nº 12"), então ele **nunca é reaproveitado nem renumerado**. Todo produto novo recebe o valor de `proximo`, e depois `proximo` aumenta em 1. Se um produto for apagado, o número dele simplesmente some.
+- **`preco`** e **`antigo`** são texto sem "R$", com vírgula decimal (`"59,90"`). O campo `antigo` é opcional e aparece riscado.
+- **`nome`** deve ser curto, até uns 45 caracteres, porque o cartão corta depois de 3 linhas. Encurte o título enorme da Shopee.
+- **`foto`** é uma imagem embutida em base64. Recorte no centro em formato quadrado, reduza para 560×560 e salve em JPEG com qualidade 78, o que dá uns 50 a 70 KB. O arquivo inteiro precisa ficar **abaixo de 16 MB**. Se `foto` estiver vazio, aparece o ícone da casinha.
+- **`frase`** é a opinião da Márcia. **Só preencha se ela mandar.** Não escreva frases por ela.
+- **`cat`** é a categoria. As atuais são "Cozinha" e "Organização". Reaproveite as existentes, porque os filtros só aparecem quando existem 2 ou mais categorias.
+- **`insta`, `tiktok` e `whats`** são os links das redes. Os botões só aparecem quando o link está preenchido. Por enquanto estão vazios, então é preciso pedir os links para a Márcia.
+- Dentro do JSON, troque todo `<` por `\u003c` para não quebrar o `<script>`.
+
+O produto mais novo aparece primeiro, porque a lista é ordenada por `n` do maior para o menor.
+
+### Exemplo em Python para adicionar um produto
+
+```python
+import json, re, base64, io
+from PIL import Image
+
+html = open("index.html", encoding="utf-8").read()
+m = re.search(r'(<script type="application/json" id="dados">)(.*?)(</script>)', html, re.S)
+d = json.loads(m.group(2))
+
+im = Image.open("foto_produto.png").convert("RGB")
+w, h = im.size; s = min(w, h)
+im = im.crop(((w-s)//2, (h-s)//2, (w-s)//2+s, (h-s)//2+s)).resize((560, 560), Image.LANCZOS)
+b = io.BytesIO(); im.save(b, "JPEG", quality=78)
+foto = "data:image/jpeg;base64," + base64.b64encode(b.getvalue()).decode()
+
+d["produtos"].append({"n": d["proximo"], "nome": "...", "preco": "0,00", "antigo": "",
+                      "link": "https://s.shopee.com.br/...", "foto": foto, "frase": "",
+                      "cat": "Cozinha", "criado": "AAAA-MM-DD"})
+d["proximo"] += 1
+
+novo = json.dumps(d, ensure_ascii=False).replace("<", "\\u003c")
+html = html[:m.start(2)] + novo + html[m.end(2):]
+open("index.html", "w", encoding="utf-8").write(html)
+```
+
+## Identidade visual (não alterar sem ela pedir)
+
+**Cores:**
+
+- Verde aprovado `#2E6B4F`: cor principal, usada no topo e nos botões.
+- Amarelo etiqueta `#F5C542`: só em preço e destaques.
+- Branco azulejo `#F7FAF8`: fundo.
+- Grafite `#1D2B26`: texto.
+- Vermelho `#C62F3B`: só no selo "não compre", nunca em oferta.
+
+**Proporção:** 60% fundo claro, 30% verde e 10% amarelo.
+
+**Letras:**
+
+- **Young Serif** nos títulos e nomes dos produtos.
+- **Atkinson Hyperlegible** nos textos e preços. Essa fonte é fácil de ler em tela pequena, o que combina com o público, que inclui gente que usa óculos de leitura.
+
+**Marca:** "achadinhos da" em amarelo, com "Márcia" em serifa branca. A foto dela fica num círculo, com o selo da casinha com o check amarelo. Ela também usa "Tia Márcia" nos selos do kit, mas o site usa "Márcia", como na foto de perfil.
+
+**Etiqueta de preço:** amarela, levemente inclinada (−6°) e com um "furinho", como nos selos do kit.
+
+**Rodapé:** traz o aviso de link de afiliada. Mantenha esse aviso.
+
+## Produtos atuais
+
+| nº | Produto | Preço | De | Categoria | Link |
+|---|---|---|---|---|---|
+| 1 | Kit 3 cabides organizadores de calça | 64,90 | 87,90 | Organização | https://s.shopee.com.br/6AlKYpVTQj |
+| 2 | Garrafa térmica Prisma 950 ml com cabo de madeira | 59,90 | 84,90 | Cozinha | https://s.shopee.com.br/5q8UAmnTGz |
+
+O próximo número é **3**.
+
+## Onde está publicado
+
+A primeira versão foi publicada como artifact no claude.ai: https://claude.ai/artifact/KGMRdgVMb95fZ9SGUsEN1h
+
+O site está preparado para a Vercel (veja o `README.md`). O endereço usado nas metatags, no `robots.txt` e no `sitemap.xml` é `https://achadinhos-da-marcia.vercel.app`. Se o domínio mudar, troque esse endereço nesses três arquivos.
+
+Ao adicionar produtos, atualize também o `<lastmod>` do `sitemap.xml`.
