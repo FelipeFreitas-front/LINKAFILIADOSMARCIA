@@ -63,7 +63,7 @@ Regras para os campos:
 - **`nome`** deve ser curto, até uns 45 caracteres, porque o cartão corta depois de 3 linhas. Encurte o título enorme da Shopee.
 - **`foto`** é uma imagem embutida em base64. Recorte no centro em formato quadrado, reduza para 560×560 e salve em JPEG com qualidade 78, o que dá uns 50 a 70 KB. O arquivo inteiro precisa ficar **abaixo de 16 MB**. Se `foto` estiver vazio, aparece o ícone da casinha.
 - **`frase`** é a opinião da Márcia. **Só preencha se ela mandar.** Não escreva frases por ela.
-- **`cat`** é a categoria. As atuais são "Cozinha" e "Organização". Reaproveite as existentes, porque os filtros só aparecem quando existem 2 ou mais categorias.
+- **`cat`** é a categoria. As atuais são "Cozinha", "Organização", "Banheiro" e "Limpeza". Reaproveite as existentes, porque os filtros só aparecem quando existem 2 ou mais categorias.
 - **`insta`, `tiktok` e `whats`** são os links das redes. Os botões só aparecem quando o link está preenchido. Por enquanto estão vazios, então é preciso pedir os links para a Márcia.
 - Dentro do JSON, troque todo `<` por `\u003c` para não quebrar o `<script>`.
 
@@ -124,8 +124,10 @@ open("index.html", "w", encoding="utf-8").write(html)
 |---|---|---|---|---|---|
 | 1 | Kit 3 cabides organizadores de calça | 64,90 | 87,90 | Organização | https://s.shopee.com.br/6AlKYpVTQj |
 | 2 | Garrafa térmica Prisma 950 ml com cabo de madeira | 59,90 | 84,90 | Cozinha | https://s.shopee.com.br/5q8UAmnTGz |
+| 3 | Tapete de banheiro antiderrapante absorvente | 13,99 | 50,00 | Banheiro | https://s.shopee.com.br/9zy4PmHjWq |
+| 4 | Escova de limpeza elétrica giratória | 69,90 | 199,00 | Limpeza | https://s.shopee.com.br/7KxJRGpxpy |
 
-O próximo número é **3**.
+O próximo número é **5**.
 
 ## Onde está publicado
 
