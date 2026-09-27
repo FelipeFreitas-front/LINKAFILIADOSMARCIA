@@ -34,7 +34,7 @@ A IA normalmente **não consegue abrir links da Shopee**, porque o acesso é blo
 {
   "perfil": {
     "foto": "data:image/jpeg;base64,...",
-    "bio": "Testo em casa antes de indicar. Aqui ficam os links de tudo que passou no teste.",
+    "bio": "Achadinhos da Shopee que valem cada real. Viu no vídeo? Procure pelo número e compre direto.",
     "insta": "",
     "tiktok": "",
     "whats": ""
