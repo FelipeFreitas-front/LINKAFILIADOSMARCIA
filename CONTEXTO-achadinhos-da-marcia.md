@@ -62,6 +62,7 @@ Regras para os campos:
 - **`preco`** e **`antigo`** são texto sem "R$", com vírgula decimal (`"59,90"`). O campo `antigo` é opcional e aparece riscado.
 - **`nome`** deve ser curto, até uns 45 caracteres, porque o cartão corta depois de 3 linhas. Encurte o título enorme da Shopee.
 - **`foto`** é uma imagem embutida em base64. Recorte no centro em formato quadrado, reduza para 560×560 e salve em JPEG com qualidade 78, o que dá uns 50 a 70 KB. O arquivo inteiro precisa ficar **abaixo de 16 MB**. Se `foto` estiver vazio, aparece o ícone da casinha.
+- **`oferta`** e **`ate`** (opcionais) servem para oferta relâmpago. `oferta` é o preço promocional e `ate` é quando a oferta acaba, no formato `"2026-09-29T00:00:00-03:00"`. Enquanto a oferta vale, o cartão mostra `oferta` na etiqueta, `preco` riscado e um contador regressivo. Quando acaba, volta sozinho para `preco`. As ofertas relâmpago da Shopee costumam acabar na virada de hora; calcule pelo "termina em" do print.
 - **`frase`** é a opinião da Márcia. **Só preencha se ela mandar.** Não escreva frases por ela.
 - **`cat`** é a categoria. As atuais são "Cozinha", "Organização", "Banheiro" e "Limpeza". Reaproveite as existentes, porque os filtros só aparecem quando existem 2 ou mais categorias.
 - **`insta`, `tiktok` e `whats`** são os links das redes. Os botões só aparecem quando o link está preenchido. Por enquanto estão vazios, então é preciso pedir os links para a Márcia.
@@ -126,8 +127,9 @@ open("index.html", "w", encoding="utf-8").write(html)
 | 2 | Garrafa térmica Prisma 950 ml com cabo de madeira | 59,90 | 84,90 | Cozinha | https://s.shopee.com.br/5q8UAmnTGz |
 | 3 | Tapete de banheiro antiderrapante absorvente | 13,99 | 50,00 | Banheiro | https://s.shopee.com.br/9zy4PmHjWq |
 | 4 | Escova de limpeza elétrica giratória | 69,90 | 199,00 | Limpeza | https://s.shopee.com.br/7KxJRGpxpy |
+| 5 | Organizador de calcinha e cueca 6 divisórias | 44,80 (oferta 25,08 até 29/09 00h) | | Organização | https://s.shopee.com.br/1BMhzjBDq2 |
 
-O próximo número é **5**.
+O próximo número é **6**.
 
 ## Onde está publicado
 
