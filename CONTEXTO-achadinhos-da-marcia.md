@@ -129,8 +129,9 @@ open("index.html", "w", encoding="utf-8").write(html)
 | 4 | Escova de limpeza elétrica giratória | 69,90 | 199,00 | Limpeza | https://s.shopee.com.br/7KxJRGpxpy |
 | 5 | Organizador de calcinha e cueca 6 divisórias | 44,80 (oferta 25,08 até 29/09 00h) | | Organização | https://s.shopee.com.br/1BMhzjBDq2 |
 | 6 | Garrafa térmica 1 L lisa com cabo de madeira | 59,88 | 150,00 | Cozinha | https://s.shopee.com.br/905fo6Xdpq |
+| 7 | Kit 5 potes de vidro hermético tampa bambu | 79,90 | 199,90 | Cozinha | https://s.shopee.com.br/qjy69Onru |
 
-O próximo número é **7**.
+O próximo número é **8**.
 
 ## Onde está publicado
 
